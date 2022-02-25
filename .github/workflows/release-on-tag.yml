@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Check for release
-        uses: actions/github-script@6.0.0
+        uses: actions/github-script@v6.0.0
         id: release_status
         with:
           script: |
@@ -31,7 +31,7 @@ jobs:
 
       - name: Delete existing release
         if: steps.release_status.outputs.exists == 'true'
-        uses: actions/github-script@6.0.0
+        uses: actions/github-script@v6.0.0
         with:
           script: |
             await github.releases.deleteRelease({ ...context.repo, release_id: ${{ steps.release_status.outputs.release_id }} });

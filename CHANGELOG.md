@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.5]
+
+- Fix action versions
+
 ## [0.0.4]
 
 - Added automated release workflow
@@ -16,6 +20,7 @@
 
 - Initial release
 
+[0.0.5]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.5)
 [0.0.4]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.4)
 [0.0.3]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.3)
 [0.0.2]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.2)
