@@ -9,7 +9,7 @@ jobs:
 
     environment:
       name: release
-      url: https://github.com/xt0rted/release-environment-test/blob/main/README.md
+      url: https://github.com/xt0rted-test/release-environment/blob/main/README.md
 
     steps:
       - uses: actions/checkout@v2
