@@ -16,6 +16,9 @@ jobs:
         run: echo ::set-output name=current_version::${GITHUB_REF#refs/tags/v}
         shell: bash
 
+      - name: Check out repo
+        uses: actions/checkout@v2.4.0
+
       - name: Check for release
         uses: actions/github-script@v6.0.0
         id: release_status
