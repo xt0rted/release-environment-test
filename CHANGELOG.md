@@ -1,5 +1,9 @@
 # Changelog
 
+## [0.0.7]
+
+- Get version from tag
+
 ## [0.0.6]
 
 - Fix api requests
@@ -24,6 +28,7 @@
 
 - Initial release
 
+[0.0.7]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.7)
 [0.0.6]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.6)
 [0.0.5]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.5)
 [0.0.4]: (https://github.com/xt0rted-test/release-environment/releases/tag/v0.0.4)

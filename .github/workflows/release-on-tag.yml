@@ -11,6 +11,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Get version from tag
+        id: tag_name
+        run: echo ::set-output name=current_version::${GITHUB_REF#refs/tags/v}
+        shell: bash
+
       - name: Check for release
         uses: actions/github-script@v6.0.0
         id: release_status
@@ -52,3 +57,9 @@ jobs:
         with:
           body: ${{ steps.changelog_reader.outputs.changes }}
           generate_release_notes: true
+
+      - name: Dump steps context
+        if: always()
+        env:
+          STEPS_CONTEXT: ${{ toJson(steps) }}
+        run: echo "$STEPS_CONTEXT"
