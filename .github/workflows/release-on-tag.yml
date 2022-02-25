@@ -11,39 +11,38 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Dump environment variables
-        run: |
-          echo $GITHUB_REF
-          echo $GITHUB_REF_NAME
-          echo $GITHUB_REF_TYPE
-        shell: bash
+      - name: Check for release
+        uses: actions/github-script@6.0.0
+        id: release_status
+        with:
+          script: |
+            const tag = github.ref_name;
 
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
+            try {
+              const { id } = await github.releases.getReleaseByTag({ ...context.repo, tag });
 
-      - name: Dump strategy context
-        env:
-          STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-        run: echo "$STRATEGY_CONTEXT"
+              core.setOutput("release_id", id);
+              core.setOutput("exists", true);
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+            }
 
-      - name: Dump matrix context
-        env:
-          MATRIX_CONTEXT: ${{ toJson(matrix) }}
-        run: echo "$MATRIX_CONTEXT"
+      - name: Delete existing release
+        if: steps.release_status.outputs.exists == 'true'
+        uses: actions/github-script@6.0.0
+        with:
+          script: |
+            await github.releases.deleteRelease({ ...context.repo, release_id: ${{ steps.release_status.outputs.release_id }} });
 
-      - name: Dump job context
-        env:
-          JOB_CONTEXT: ${{ toJson(job) }}
-        run: echo "$JOB_CONTEXT"
+      - name: Get changelog entry
+        uses: mindsers/changelog-reader-action@v2.0.0
+        id: changelog_reader
+        with:
+          version: ${{ steps.tag_name.outputs.current_version }}
 
-      - name: Dump runner context
-        env:
-          RUNNER_CONTEXT: ${{ toJson(runner) }}
-        run: echo "$RUNNER_CONTEXT"
-
-      - name: Dump steps context
-        env:
-          STEPS_CONTEXT: ${{ toJson(steps) }}
-        run: echo "$STEPS_CONTEXT"
+      - uses: softprops/action-gh-release@v0.1.14
+        with:
+          body: ${{ steps.changelog_reader.outputs.changes }}
+          generate_release_notes: true
