@@ -19,7 +19,10 @@ jobs:
             const tag = github.ref_name;
 
             try {
-              const { id } = await github.releases.getReleaseByTag({ ...context.repo, tag });
+              const { id } = await github.request("GET /repos/{owner}/{repo}/releases/tags/{tag}", {
+                ...context.repo,
+                tag,
+              });
 
               core.setOutput("release_id", id);
               core.setOutput("exists", true);
@@ -34,7 +37,10 @@ jobs:
         uses: actions/github-script@v6.0.0
         with:
           script: |
-            await github.releases.deleteRelease({ ...context.repo, release_id: ${{ steps.release_status.outputs.release_id }} });
+            await github.request("DELETE /repos/{owner}/{repo}/releases/{release_id}", {
+              ...context.repo,
+              release_id: ${{ steps.release_status.outputs.release_id }},
+            });
 
       - name: Get changelog entry
         uses: mindsers/changelog-reader-action@v2.0.0
