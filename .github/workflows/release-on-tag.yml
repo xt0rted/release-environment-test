@@ -51,7 +51,7 @@ jobs:
 #            });
 
       - name: Get changelog entry
-        uses: mindsers/changelog-reader-action@v2.1.1
+        uses: mindsers/changelog-reader-action@v2.2.0
         id: changelog_reader
         with:
           version: ${{ steps.tag_name.outputs.current_version }}
